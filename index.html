@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>imagii - Free Fire Rental</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Slackey&display=swap" rel="stylesheet">
+<style>
+:root {
+/* ปรับโทนสีเป็น ชมพู-ฟ้า พาสเทล */
+--color-pink-bg: #f0faff; /* ฟ้าอ่อนมาก */
+--color-pink-dot: #ffe4ef; /* ชมพูอ่อน */
+--color-pink-dark: #ffb8d1; /* ชมพูพาสเทลเข้ม */
+--color-pink-light: #bae1ff; /* ฟ้าพาสเทล */
+--color-brown-dark: #4a5568; 
+--color-brown-light: #718096;
+--color-accent-blue: #a0d8ef;
+}
+
+body {
+font-family: 'Mitr', sans-serif;
+background-color: var(--color-pink-bg);
+background-image: radial-gradient(var(--color-pink-dot) 15%, transparent 16%),
+radial-gradient(var(--color-pink-dot) 15%, transparent 16%);
+background-size: 24px 24px;
+background-position: 0 0, 12px 12px;
+color: var(--color-brown-dark);
+scroll-behavior: smooth;
+}
+
+.font-slackey {
+font-family: 'Slackey', 'Mitr', cursive;
+}
+
+.text-shadow-cute {
+text-shadow: 2px 2px 0px #fff, 3px 3px 0px var(--color-pink-light);
+}
+
+.clean-box {
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(10px);
+border-radius: 40px;
+box-shadow: 0 10px 40px rgba(186, 225, 255, 0.2);
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-pink-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-pink-dark); border-radius: 10px; }
+
+.modal-enter { animation: modalFadeIn 0.3s ease-out forwards; }
+.modal-exit { animation: modalFadeOut 0.2s ease-in forwards; }
+@keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes modalFadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.95); } }
+
+.slider-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+.slide { min-width: 100%; }
+</style>
+</head>
+<body class="min-h-screen pb-12">
+
+<div id="menu-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+<div id="side-menu" class="fixed inset-y-0 left-0 w-64 bg-white/95 backdrop-blur-md shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out border-r border-blue-100">
+<div class="p-5 h-full flex flex-col">
+<div class="flex justify-between items-center mb-6 border-b border-blue-50 pb-4">
+<span class="font-slackey text-xl text-[#ffb8d1] text-shadow-cute">MENU</span>
+<button onclick="toggleMenu()" class="text-blue-300 hover:text-pink-400 bg-blue-50 p-1 rounded-full transition">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+</button>
+</div>
+<div class="space-y-3 font-medium text-gray-600 flex-1">
+<a href="#services" onclick="toggleMenu()" class="flex items-center gap-3 p-3 hover:bg-pink-50 rounded-xl transition text-[15px]">
+<span class="text-[#ffb8d1]"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6-6.2-4.5-6.2 4.5 2.4-7.6-6.2-4.5h7.6z"/></svg></span> บริการเช่ารหัส
+</a>
+<a href="#portfolio" onclick="toggleMenu()" class="flex items-center gap-3 p-3 hover:bg-pink-50 rounded-xl transition text-[15px]">
+<span class="text-[#bae1ff]"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></span> รูปรหัสทั้งหมด
+</a>
+<a href="#pricing" onclick="toggleMenu()" class="flex items-center gap-3 p-3 hover:bg-pink-50 rounded-xl transition text-[15px]">
+<span class="text-[#ffb8d1]"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg></span> อัตราค่าเช่า
+</a>
+<a href="#contact" onclick="toggleMenu()" class="flex items-center gap-3 p-3 hover:bg-pink-50 rounded-xl transition text-[15px]">
+<span class="text-[#bae1ff]"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span> ติดต่อสอบถาม
+</a>
+</div>
+<div class="mt-auto border-t border-pink-100 pt-4 text-center">
+<p class="font-slackey text-xs text-pink-300">IMAGII SHOP</p>
+</div>
+</div>
+</div>
+
+<div class="w-full bg-white/90 backdrop-blur-md border-b border-blue-100 py-3 px-4 flex justify-between items-center text-[10px] sm:text-xs font-slackey text-blue-400 font-medium uppercase tracking-wider sticky top-0 z-30 shadow-sm">
+<div class="flex items-center gap-2 sm:gap-3">
+<button onclick="toggleMenu()" class="p-1.5 hover:bg-blue-50 rounded-md text-blue-400 transition-colors focus:outline-none cursor-pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+</button>
+<span>IMAGII ></span>
+<span class="text-pink-300 hidden sm:inline">> STATUS: OPEN</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+CHECK QUEUE
+</span>
+<span class="hidden sm:inline border-l border-blue-200 pl-4 border-dashed">LINE: @imagii</span>
+</div>
+</div>
+
+<main class="max-w-2xl mx-auto mt-6 sm:mt-10 px-4 relative z-0">
+<div class="clean-box p-6 sm:p-10 z-0 border border-white">
+<div class="text-center mb-8 relative flex flex-col items-center">
+<svg class="absolute top-2 left-2 sm:left-10 w-6 h-6 text-[#ffb8d1] animate-pulse" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C12 0 12 10 22 12C12 14 12 24 12 24C12 24 12 14 2 12C12 10 12 0 12 0Z" /></svg>
+<svg class="absolute top-6 right-4 sm:right-12 w-5 h-5 text-[#bae1ff] animate-bounce" style="animation-duration: 2.5s;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6-6.2-4.5-6.2 4.5 2.4-7.6-6.2-4.5h7.6z"/></svg>
+<div class="relative w-28 h-28 sm:w-32 sm:h-32 mb-2 group">
+<div class="absolute inset-0 bg-gradient-to-tr from-[#bae1ff] to-[#ffb8d1] rounded-full opacity-40 blur-md group-hover:opacity-60 transition duration-300"></div>
+<img src="https://i.postimg.cc/g0jqhsGZ/IMG-3777.png" alt="imagii Logo" class="relative w-full h-full object-cover rounded-full border-4 border-white shadow-md z-10 transition-transform duration-300 group-hover:scale-105">
+<div class="absolute -bottom-1 -right-1 bg-white rounded-full p-1.5 shadow-sm z-20 border border-blue-50">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#ffb8d1"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+</div>
+<h1 class="font-slackey text-4xl sm:text-5xl font-bold text-[#ffb8d1] text-shadow-cute mb-3 tracking-wide mt-3">imagii</h1>
+<h2 class="font-slackey text-lg text-gray-600 bg-[#f0faff] inline-block px-6 py-1.5 rounded-full shadow-sm">ร้านอิมปล่อยเช่ารหัสฟีฟายน้า</h2>
+</div>
+
+<div class="mb-10 relative rounded-3xl overflow-hidden shadow-md group">
+<div class="slider-track" id="slider-track">
+<div class="slide bg-gradient-to-r from-blue-100 to-pink-100 h-40 sm:h-56 flex flex-col items-center justify-center text-center p-4">
+<span class="font-slackey text-2xl sm:text-3xl text-gray-700 mb-2">FREE FIRE RENTAL</span>
+<span class="text-sm text-gray-500 bg-white/50 px-4 py-1 rounded-full">เริ่มต้นเพียง 15.- / ชม.</span>
+</div>
+<div class="slide bg-gradient-to-r from-[#e0f2fe] to-[#fff1f2] h-40 sm:h-56 flex flex-col items-center justify-center text-center p-4">
+<span class="font-slackey text-2xl sm:text-3xl text-gray-700 mb-2">เทยันตั้งแต่ 17:00</span>
+<span class="text-sm text-gray-500 bg-white/50 px-4 py-1 rounded-full">จองคิวผ่านแชทได้เลย</span>
+</div>
+</div>
+<button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 text-blue-400 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+<button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 text-blue-400 w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+<div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2" id="slider-dots">
+<button class="w-4 h-2 rounded-full bg-[#ffb8d1] transition-all"></button>
+<button class="w-2 h-2 rounded-full bg-white/60 transition-all"></button>
+</div>
+</div>
+
+<div id="services" class="text-center mb-10 bg-[#f0faff] p-6 rounded-2xl border border-blue-50 shadow-sm mt-6">
+<div class="flex justify-center mb-4">
+<div class="bg-white rounded-full p-2.5 shadow-sm border border-blue-100 text-[#ffb8d1]">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+</div>
+<p class="text-[15px] sm:text-base leading-relaxed text-gray-700">
+imagii ปล่อยเช่า เอฟเอฟ เริ่มต้นชั่วโมงละ 15 บาท<br>
+หารหัสแบบไหนสามารถบอกได้เลยค่ะ เทยันตั้งแต่เวลา 17:00 ทุกวัน<br>
+<span class="text-[#ffb8d1] font-semibold text-lg mt-1 inline-block">มีประวัติเช่าไม่คู่หน้า มีกฎนิดหน่อยค่า</span>
+</p>
+</div>
+
+<div class="mb-10">
+<h3 class="font-slackey text-2xl font-semibold mb-4 flex items-center gap-2 text-[#ffb8d1]">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+เงื่อนไขการเช่า
+</h3>
+<ul class="space-y-3 text-[15px] sm:text-base mb-5 text-gray-600">
+<li class="flex items-start gap-3 bg-blue-50/50 p-3 rounded-xl"><svg class="w-4 h-4 mt-1 flex-shrink-0 text-[#bae1ff]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg> ต้องยืนยันทุกครั้งที่มาเช่าครั้งแรก</li>
+<li class="flex items-start gap-3 bg-blue-50/50 p-3 rounded-xl"><svg class="w-4 h-4 mt-1 flex-shrink-0 text-[#bae1ff]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg> รับเฉพาะลูกค้าที่มีประวัติเช่า (ถ้าไม่มีต้องถ่ายคู่บัตร)</li>
+<li class="flex items-start gap-3 bg-blue-50/50 p-3 rounded-xl"><svg class="w-4 h-4 mt-1 flex-shrink-0 text-[#bae1ff]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg> เทยันนอน (8 ชม.) หลัง 17:00 เท่านั้น (โอนจองได้)</li>
+<li class="flex items-start gap-3 bg-blue-50/50 p-3 rounded-xl"><svg class="w-4 h-4 mt-1 flex-shrink-0 text-[#bae1ff]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg> โอนจองเท่านั้น ไม่รับจองปากเปล่า</li>
+<li class="flex items-start gap-3 bg-blue-50/50 p-3 rounded-xl"><svg class="w-4 h-4 mt-1 flex-shrink-0 text-[#bae1ff]" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg> โอนแล้ว ยกเลิก ไม่คืนเงินทุกกรณี</li>
+</ul>
+<p class="text-sm bg-pink-100/50 p-4 rounded-xl text-pink-700">
+* หากรหัสมีปัญหา ลูกค้าต้องรับผิดชอบราคาเต็มตามรหัสที่เช่า หากไม่ทำตามกฎที่แจ้งไว้
+</p>
+</div>
+
+<div id="portfolio" class="mb-10 bg-[#4a5568] rounded-2xl p-6 text-center shadow-md relative overflow-hidden mt-6">
+<svg class="absolute -right-4 -bottom-4 opacity-10 w-24 h-24 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+<div class="flex justify-center mb-4 mt-2 relative z-10">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="#bae1ff"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+</div>
+<h3 class="font-slackey text-white text-2xl font-medium mb-5 relative z-10">ดูรูปรหัสทั้งหมด</h3>
+<div class="flex flex-wrap justify-center gap-3 relative z-10">
+<a href="https://drive.google.com/drive/folders/1yTtCkChAgXS0E5MUkLGPghl4pL1kLYBy" target="_blank" class="bg-[#ffb8d1] text-white px-8 py-3 rounded-full hover:bg-white hover:text-[#ffb8d1] transition duration-300 text-sm font-semibold border-2 border-[#ffb8d1] shadow-sm">คลิกเพื่อดู Google Drive</a>
+</div>
+</div>
+
+<div id="pricing" class="mb-10">
+<div class="bg-white rounded-2xl p-6 border border-blue-100 shadow-sm mt-6">
+<div class="flex justify-center mb-4">
+<div class="bg-[#f0faff] rounded-full p-2.5 border border-blue-100 text-[#ffb8d1]">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+</div>
+</div>
+<h3 class="text-center font-slackey text-2xl text-gray-700 mb-2 mt-1">Rental Rates</h3>
+<p class="text-center text-[#ffb8d1] font-semibold text-xl mb-5">เริ่มต้น 15.- / ชม.</p>
+
+<div class="bg-[#f0faff] p-5 rounded-2xl border border-blue-50 mb-6">
+<h4 class="font-bold text-blue-500 mb-3 flex items-center gap-2"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg> กฎการยืนยันตัวตน</h4>
+<div class="text-[13px] space-y-2 text-gray-600">
+<p>• บัตรประชาชน (ห้ามปิดข้อมูล)</p>
+<p>• หน้าบัญชีธนาคาร/วอเลท (ชื่อต้องตรงบัตร)</p>
+<p>• เบอร์ผู้ปกครอง 2 คน / ลิ้งค์เฟสญาติ+เพื่อน</p>
+<p>• ปักหมุดโลเคชั่น / แคปรุ่นมือถือ / แคป VPN</p>
+<p>• ประวัติการเช่า (ถ้าไม่มีต้องถ่ายคู่บัตร)</p>
+</div>
+</div>
+
+<div class="bg-[#fff5f8] p-5 rounded-2xl border border-pink-50 mb-6">
+<h4 class="font-bold text-pink-500 mb-3">📍 กฎการเล่น & ค่าปรับ</h4>
+<ul class="text-[12px] space-y-2 text-gray-600 list-disc pl-4">
+<li>โดนแบนจากโปรในทีม/สุ่มคนเดียว ปรับ 10 เท่า</li>
+<li>ออกช้าปรับนาทีละ 5 บาท</li>
+<li>ไม่อัดคลิปตอนออกรหัส ปรับ 300 บาท</li>
+<li>รหัสติดดำ ปรับ 1000 บาท</li>
+<li>เล่นโปร/มอด ปรับ 2000 - 10 เท่าของราคารหัส</li>
+<li>แต่งงาน/เข้าแคลนมั่ว ปรับ 100-300 บาท</li>
+</ul>
+</div>
+
+<a href="https://payment-harukamae.harumibmemib.workers.dev" target="_blank" class="block w-full text-center bg-gradient-to-r from-[#bae1ff] to-[#ffb8d1] text-white py-4 rounded-2xl font-bold shadow-md hover:opacity-90 transition">
+💰 ช่องทางการโอนร้านอิม คลิกที่นี่
+</a>
+</div>
+</div>
+
+<div id="course" class="mb-10 bg-white border border-[#bae1ff] rounded-3xl p-8 text-center shadow-sm relative overflow-hidden mt-6">
+<div class="absolute top-0 right-0 w-24 h-24 bg-[#f0faff] rounded-bl-full -z-10"></div>
+<h3 class="text-xl font-slackey text-gray-700 mb-4">วิธีเช็ค VPN เพื่อความปลอดภัย</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left text-sm text-gray-600">
+<div class="bg-blue-50 p-4 rounded-xl">
+<p class="font-bold text-blue-500 mb-1">iOS:</p>
+<p>ตั้งค่า > ทั่วไป > การจัดการ VPN และอุปกรณ์ > แคปหน้าจอมาทั้งหมด</p>
+</div>
+<div class="bg-pink-50 p-4 rounded-xl">
+<p class="font-bold text-pink-500 mb-1">Android:</p>
+<p>ตั้งค่า > ค้นหาคำว่า VPN > ตรวจสอบการเชื่อมต่อ (ต้องไม่มี)</p>
+</div>
+</div>
+</div>
+
+<div class="mb-10 bg-[#fff0f5] p-6 rounded-3xl shadow-sm">
+<h3 class="font-slackey text-xl text-pink-500 mb-4 text-center">แอพที่ควรระวัง (ห้ามติดตั้ง)</h3>
+<div class="grid grid-cols-2 gap-3">
+<a href="https://apps.apple.com/th/app/fire-button-pro-game-enhancer/id6745362464?l=th" target="_blank" class="bg-white p-2 rounded-lg text-[11px] text-center border border-pink-100 hover:bg-pink-50">Fire Button (iOS)</a>
+<a href="https://play.google.com/store/apps/details?id=com.minim.headshot.ffsensi&hl=en_US" target="_blank" class="bg-white p-2 rounded-lg text-[11px] text-center border border-blue-100 hover:bg-blue-50">Sensi (Android)</a>
+<a href="https://apps.apple.com/th/app/zarchiver/id1639665809?l=th" target="_blank" class="bg-white p-2 rounded-lg text-[11px] text-center border border-pink-100 hover:bg-pink-50">ZArchiver (iOS)</a>
+<a href="https://play.google.com/store/apps/details?id=ru.zdevs.zarchiver" target="_blank" class="bg-white p-2 rounded-lg text-[11px] text-center border border-blue-100 hover:bg-blue-50">ZArchiver (Android)</a>
+</div>
+<p class="text-[10px] text-center mt-3 text-gray-400">* กรุณากดลิ้งค์เพื่อเช็คว่าติดตั้งไว้หรือไม่ หากมีให้ลบทันที</p>
+</div>
+
+<div id="contact" class="mt-12 pt-8 border-t border-pink-100 text-center">
+<div class="flex justify-center mb-5">
+<div class="bg-[#f0faff] rounded-full p-3 text-[#ffb8d1]">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+</div>
+</div>
+<h3 class="font-slackey text-2xl text-gray-700 mb-5">ช่องทางการติดต่อ</h3>
+<div class="flex justify-center gap-5 mb-8">
+<a href="https://www.facebook.com/share/1HEy27aSVY/?mibextid=wwXIfr" target="_blank" class="w-12 h-12 rounded-full bg-[#f0faff] text-blue-400 flex items-center justify-center hover:bg-blue-400 hover:text-white transition duration-300 shadow-sm">
+<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+</a>
+<a href="https://line.me/ti/p/Z4nBI108Gc" target="_blank" class="w-12 h-12 rounded-full bg-[#fff0f5] text-pink-400 flex items-center justify-center hover:bg-pink-400 hover:text-white transition duration-300 shadow-sm">
+<svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22 10.5c0-4.14-4.48-7.5-10-7.5S2 6.36 2 10.5c0 3.73 3.61 6.87 8.35 7.4.29.04.68.12.78.36.1.22.05.57.02.8l-.13.8c-.04.22-.19.92.81.5 1.01-.42 5.43-3.2 7.42-5.48C21.05 13.63 22 12.16 22 10.5z"/></svg>
+</a>
+</div>
+<p class="text-xs text-[#ffb8d1] tracking-widest font-medium uppercase">Thank you for choosing imagii shop</p>
+</div>
+</div>
+</main>
+
+<script>
+function toggleMenu() {
+const menu = document.getElementById('side-menu');
+const overlay = document.getElementById('menu-overlay');
+if (menu.classList.contains('-translate-x-full')) {
+menu.classList.remove('-translate-x-full');
+overlay.classList.remove('hidden');
+setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+} else {
+menu.classList.add('-translate-x-full');
+overlay.classList.add('opacity-0');
+setTimeout(() => overlay.classList.add('hidden'), 300);
+}
+}
+
+let currentSlide = 0;
+const track = document.getElementById('slider-track');
+const dots = document.querySelectorAll('#slider-dots button');
+const totalSlides = 2;
+let slideInterval;
+
+function updateSlider() {
+track.style.transform = `translateX(-${currentSlide * 100}%)`;
+dots.forEach((dot, index) => {
+if (index === currentSlide) {
+dot.classList.replace('bg-white/60', 'bg-[#ffb8d1]');
+dot.classList.replace('w-2', 'w-4');
+} else {
+dot.classList.replace('bg-[#ffb8d1]', 'bg-white/60');
+dot.classList.replace('w-4', 'w-2');
+}
+});
+}
+
+function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }
+function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlider(); }
+function startInterval() { slideInterval = setInterval(nextSlide, 3500); }
+
+startInterval();
+</script>
+</body>
+</html>
